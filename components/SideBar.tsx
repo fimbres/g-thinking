@@ -1,8 +1,49 @@
 "use client";
 
+import { cn } from '@/lib/utils';
+import { ChatBubbleIcon, CodeIcon, GearIcon, ImageIcon, LayoutIcon, VideoIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
+import React from 'react';
+
+const routes = [
+  {
+    label: "Dashboard",
+    icon: LayoutIcon,
+    href: "/dashboard",
+    color: "text-gray-200"
+  },
+  {
+    label: "Conversation",
+    icon: ChatBubbleIcon,
+    href: "/conversation",
+    color: "text-gray-200"
+  },
+  {
+    label: "Image Generation",
+    icon: ImageIcon,
+    href: "/image-generation",
+    color: "text-gray-200"
+  },
+  {
+    label: "Video Generation",
+    icon: VideoIcon,
+    href: "/video-generation",
+    color: "text-gray-200"
+  },
+  {
+    label: "Code Generation",
+    icon: CodeIcon,
+    href: "/code-generation",
+    color: "text-gray-200"
+  },
+  {
+    label: "Settings",
+    icon: GearIcon,
+    href: "/settings",
+    color: "text-gray-200"
+  },
+];
 
 function SideBar() {
   return (
@@ -14,6 +55,16 @@ function SideBar() {
             </div>
             <h1 className='font-bold text-2xl text-white'>G Thinking</h1>
         </Link>
+        <div className='space-y-1'>
+        {routes.map(route => (
+          <Link href={route.href} key={route.href} className='text-sm group flex p-3 w-full justify-start font-medium cursor-pointer text-white rounded-lg transition hover:opacity-40'>
+            <div className='flex items-center flex-1'>
+              <route.icon className={cn('h-5 w-5 mr-3', route.color)}/>
+              {route.label}
+            </div>
+          </Link>
+        ))}
+        </div>
        </div>
     </div>
   )
