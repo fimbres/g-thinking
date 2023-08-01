@@ -6,6 +6,7 @@ import { MAX_FREE_COUNTS } from '@/constants';
 import { Progress } from './ui/progress';
 import { Button } from './ui/button';
 import { RocketIcon } from '@radix-ui/react-icons';
+import { useProModal } from '@/hooks/useProModal';
 
 interface FreeCounterProps {
     apiLimitCounter: number;
@@ -13,6 +14,7 @@ interface FreeCounterProps {
 
 const FreeCounter: React.FC<FreeCounterProps> = ({ apiLimitCounter }) => {
   const [mounted, setMounted] = useState(false);
+  const proModal = useProModal();
 
   useEffect(() => {
     setMounted(true);
@@ -34,7 +36,7 @@ const FreeCounter: React.FC<FreeCounterProps> = ({ apiLimitCounter }) => {
                   <p>{apiLimitCounter} / {MAX_FREE_COUNTS} Free Generations</p>
               </div>
               <Progress className='h-3' value={(apiLimitCounter / MAX_FREE_COUNTS) * 100} />
-            <Button className='w-full mt-2' >
+            <Button className='w-full mt-2' onClick={proModal.onOpen}>
               Upgrade
               <RocketIcon className='w-4 h-4 ml-2 fill-white'/>
             </Button>
