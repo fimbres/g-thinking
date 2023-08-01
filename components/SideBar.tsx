@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import FreeCounter from './FreeCounter';
 
 const routes = [
   {
@@ -46,7 +47,11 @@ const routes = [
   },
 ];
 
-function SideBar() {
+interface SideBarProps {
+  apiLimitCounter: number;
+}
+
+const SideBar: React.FC<SideBarProps> = ({ apiLimitCounter }) => {
   const pathname = usePathname();
 
   return (
@@ -68,7 +73,10 @@ function SideBar() {
           </Link>
         ))}
         </div>
-       </div>
+      </div>
+      <FreeCounter
+        apiLimitCounter={apiLimitCounter}
+      />
     </div>
   )
 }
