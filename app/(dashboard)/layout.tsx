@@ -12,7 +12,7 @@ async function DashboardLayout({ children } : { children: React.ReactElement }) 
             <SideBar apiLimitCounter={counter}/>
         </div>
         <main className='md:pl-72'>
-            <NavBar />
+            <NavBar apiLimitCounter={counter} />
             {children}
         </main>
     </div>
