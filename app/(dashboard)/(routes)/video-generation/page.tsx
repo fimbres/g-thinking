@@ -3,7 +3,7 @@
 import Heading from '@/components/Heading';
 import * as z from 'zod';
 import axios from 'axios';
-import { ChatBubbleIcon, VideoIcon } from '@radix-ui/react-icons';
+import { VideoIcon } from '@radix-ui/react-icons';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,15 +12,13 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { ChatCompletionRequestMessage } from 'openai';
 import EmptyChat from '@/components/EmptyChat';
 import Loader from '@/components/Loader';
-import { cn } from '@/lib/utils';
-import UserAvatar from '@/components/UserAvatar';
-import BotAvatar from '@/components/BotAvatar';
+import { useProModal } from '@/hooks/useProModal';
 
 function VideoPage() {
   const router = useRouter();
+  const proModal = useProModal();
   const [video, setVideo] = useState<string>();
   const form = useForm<Zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +38,10 @@ function VideoPage() {
         setVideo(response.data[0]);
 
         form.reset();
-    } catch (error) {
+    } catch (error: any) {
+        if(error?.response?.status === 403) {
+            proModal.onOpen();
+        }
         console.error(error);
     } finally {
         router.refresh();

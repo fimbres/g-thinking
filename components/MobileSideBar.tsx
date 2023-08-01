@@ -6,7 +6,11 @@ import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import SideBar from './SideBar'
 
-function MobileSideBar() {
+interface MobileSideBarProps {
+  apiLimitCount: number;
+}
+
+const MobileSideBar: React.FC<MobileSideBarProps> = ({ apiLimitCount }) => {
   const [isMounted, setIsMounted] = useState(false);
   
   useEffect(() => {
@@ -29,7 +33,7 @@ function MobileSideBar() {
             </Button>
         </SheetTrigger>
         <SheetContent side='left' className='p-0 pt-5 bg-red-700 text-white'>
-            <SideBar />
+            <SideBar apiLimitCounter={apiLimitCount} />
         </SheetContent>
     </Sheet>
   )

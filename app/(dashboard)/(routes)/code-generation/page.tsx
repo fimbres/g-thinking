@@ -19,9 +19,11 @@ import { cn } from '@/lib/utils';
 import UserAvatar from '@/components/UserAvatar';
 import BotAvatar from '@/components/BotAvatar';
 import MarkDown from 'react-markdown';
+import { useProModal } from '@/hooks/useProModal';
 
 function CodePage() {
   const router = useRouter();
+  const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const form = useForm<Zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,7 +48,10 @@ function CodePage() {
         setMessages(currentMessages => [...currentMessages, userMessage, response.data])
 
         form.reset();
-    } catch (error) {
+    } catch (error: any) {
+        if(error?.response?.status === 403) {
+            proModal.onOpen();
+        }
         console.error(error);
     } finally {
         router.refresh();

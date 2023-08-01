@@ -3,7 +3,7 @@
 import Heading from '@/components/Heading';
 import * as z from 'zod';
 import axios from 'axios';
-import { ChatBubbleIcon, DownloadIcon, ImageIcon } from '@radix-ui/react-icons';
+import { DownloadIcon, ImageIcon } from '@radix-ui/react-icons';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,18 +12,16 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { ChatCompletionRequestMessage } from 'openai';
 import EmptyChat from '@/components/EmptyChat';
 import Loader from '@/components/Loader';
-import { cn } from '@/lib/utils';
-import UserAvatar from '@/components/UserAvatar';
-import BotAvatar from '@/components/BotAvatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@radix-ui/react-select';
 import { Card, CardFooter } from '@/components/ui/card';
 import Image from 'next/image';
+import { useProModal } from '@/hooks/useProModal';
 
 function ConversationPage() {
   const router = useRouter();
+  const proModal = useProModal();
   const [images, setImages] = useState([]);
   const form = useForm<Zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,7 +42,10 @@ function ConversationPage() {
 
         setImages(urls);
         form.reset();
-    } catch (error) {
+    } catch (error: any) {
+        if(error?.response?.status === 403) {
+            proModal.onOpen();
+        }
         console.error(error);
     } finally {
         router.refresh();
