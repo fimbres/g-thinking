@@ -8,7 +8,7 @@ async function DashboardLayout({ children } : { children: React.ReactElement }) 
 
   return (
     <div className='h-full relative'>
-        <div className='hidden h-screen md:flex md:flex-col md:fixed md:inset-y-0 z-[80] md:w-72 bg-red-700'>
+        <div className='hidden h-screen md:flex md:flex-col md:fixed md:inset-y-0 md:w-72 bg-red-700'>
             <SideBar apiLimitCounter={counter}/>
         </div>
         <main className='md:pl-72'>
