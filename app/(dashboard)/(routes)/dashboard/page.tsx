@@ -35,10 +35,10 @@ export default async function Home() {
         <div className='md:text-6xl text-4xl font-bold text-center'>Welcome back{user?.username && ', ' + user.username}!</div>
         <p className='mt-5 text-muted-foreground font-light text-md ms:text-lg text-center'>Interact with the smartest AI, and be aware of the power of the AI</p>
       </div>
-      <div className='space-y-4 w-full py-20'>
+      <div className='w-full py-20'>
         {tools.map(tool => (
           <Link key={tool.href} href={tool.href}>
-            <Card className='p-2 border-black/5 flex items-center justify-between hover:shadow-lg transition cursor-pointer'>
+            <Card className='p-2 mb-4 border-black/5 flex items-center justify-between hover:shadow-lg transition cursor-pointer'>
               <div className={cn('p-2 w-fit rounded-md flex items-center', "text-gray-200")}>
                 <div className='rounded-lg bg-red-300 p-3 mr-4'>
                   <tool.icon className={cn('w-8 h-8 text-red-700')} />
