@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogDescription, DialogTitle, DialogFooter } from './ui/dialog';
 import { useProModal } from '@/hooks/useProModal';
 import { Badge } from './ui/badge';
@@ -8,9 +8,11 @@ import { ChatBubbleIcon, CheckIcon, CodeIcon, ImageIcon, RocketIcon, VideoIcon }
 import { Card } from './ui/card';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
+import axios from 'axios';
 
 const ProModal = () => {
     const proModal = useProModal();
+    const [isLoading, setIsLoading] = useState(false);
     const tools = [
         {
           label: "Conversation",
@@ -33,6 +35,21 @@ const ProModal = () => {
           href: "/code-generation",
         },
       ];
+
+    const onSubscribe = async () => {
+        try{
+            setIsLoading(true);
+            const response = axios.get('/api/stripe');
+
+            window.location.href = (await response).data.url;
+        }
+        catch(error){
+            console.error('Client Error', error);
+        }
+        finally {
+            setIsLoading(false);
+        }
+    }
 
   return (
     <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
@@ -63,7 +80,7 @@ const ProModal = () => {
                 </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-                <Button className='w-full mt-3'>
+                <Button className='w-full mt-3' onClick={onSubscribe} disabled={isLoading}>
                     Upgrade
                     <RocketIcon className='w-4 h-4 ml-2 fill-white' />
                 </Button>
